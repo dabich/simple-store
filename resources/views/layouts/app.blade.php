@@ -38,7 +38,11 @@
                             <li><a class="nav-link" href="{{ route('register') }}">Register</a></li>
                         @else
                             @if (auth()->check() && auth()->user()->isAdmin())
-                            <li><a class="nav-link" href="{{ route('admin') }}">Admin Panel</a></li>
+                            <li>
+                                <a class="nav-link" href="{{ route('admin') }}">
+                                    <span>Dashboard</span>
+                                </a>
+                            </li>
                             @endif
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -59,6 +63,10 @@
                                 </div>
                             </li>
                         @endguest
+
+                        <li>
+                            <cart-component :cart='{{ json_encode($cart) }}'></cart-component>
+                        </li>
                     </ul>
                 </div>
             </div>

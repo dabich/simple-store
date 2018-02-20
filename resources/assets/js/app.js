@@ -1,17 +1,15 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+import Vue from 'vue';
+import store from "./store";
+import VueFeatherIcon from 'vue-feather-icon';
 
 require('./bootstrap');
 
-window.Vue = require('vue');
-
-const feather = require('feather-icons');
-
-feather.replace();
+Vue.use(VueFeatherIcon);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -19,8 +17,11 @@ feather.replace();
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('buy-button-component', require('./components/BuyButtonComponent.vue'));
+Vue.component('cart-component', require('./components/CartComponent.vue'));
+
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    store
 });

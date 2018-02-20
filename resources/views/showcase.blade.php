@@ -18,7 +18,7 @@
                         <div class="card-body">
                             <p class="card-text">{{ $product->name }}</p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <button type="button" class="btn btn-sm btn-outline-info">Buy</button>
+                                <buy-button-component :product="{{ $product->toJson() }}"></buy-button-component>
                                 <span class="text-muted">${{ $product->price }}</span>
                             </div>
                         </div>

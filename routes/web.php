@@ -18,6 +18,17 @@ Auth::routes();
 Route::get('/', 'ShowcaseController@index');
 Route::get('/orders', 'HomeController@orders')->name('profile');
 
+Route::get('/checkout', 'CheckoutController@checkoutView');
+Route::post('/checkout', 'CheckoutController@checkout')->name('checkout');
+Route::get('/success', 'CheckoutController@success');
+Route::get('/fail', 'CheckoutController@fail');
+
+Route::get('cart', 'CartController@view');
+Route::post('cart', 'CartController@add');
+Route::put('cart', 'CartController@update');
+Route::delete('cart', 'CartController@clear');
+Route::delete('cart/{product_id}', 'CartController@remove');
+
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'admin'], function (Router $router) {
     $router->get('', 'DashboardController@index')->name('admin');
     $router->get('dashboard', 'DashboardController@index')->name('admin');

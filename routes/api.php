@@ -14,13 +14,15 @@ use Illuminate\Routing\Router;
 |
 */
 
-Route::group([
-    'middleware' => 'auth:api',
-    'namespace' => 'Api',
-    'prefix' => 'api'
-], function (Router $router) {
-    $router->apiResources([
-        'products' => 'ProductController',
-        'orders' => 'OrderController',
-    ]);
+Route::group(['namespace' => 'Api'], function(Router $router)
+{
+    /**
+     * Auth routes
+     */
+    $router->group(['middleware' => 'auth:api'], function (Router $router) {
+        $router->apiResources([
+            'products' => 'ProductController',
+            'orders' => 'OrderController',
+        ]);
+    });
 });

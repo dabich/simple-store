@@ -2,6 +2,10 @@
 window._ = require('lodash');
 window.Popper = require('popper.js').default;
 
+const feather = require('feather-icons');
+
+feather.replace();
+
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
@@ -10,6 +14,9 @@ window.Popper = require('popper.js').default;
 
 try {
     window.$ = window.jQuery = require('jquery');
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
 
     require('bootstrap');
 } catch (e) {}
