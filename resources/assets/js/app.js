@@ -18,6 +18,7 @@ Vue.use(VueFeatherIcon);
  */
 
 Vue.component('buy-button-component', require('./components/BuyButtonComponent.vue'));
+Vue.component('payment-component', require('./components/CheckoutComponent.vue'));
 Vue.component('cart-component', require('./components/CartComponent.vue'));
 
 

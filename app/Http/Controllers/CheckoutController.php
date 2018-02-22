@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CheckoutRequest;
 use App\Models\Cart;
 use App\Models\Order;
-use Stripe\Charge;
-use Stripe\Stripe;
 
 class CheckoutController extends Controller
 {
@@ -24,26 +22,59 @@ class CheckoutController extends Controller
      */
     public function checkout(CheckoutRequest $request)
     {
+        /** @var Order $order */
         $order = Order::create(
             $request->only([
-                'user_name',
-                'user_email',
+                'name',
+                'email',
                 'address'
             ])
         );
 
-        Cart::clear();
+        $products = array_map(
+            function ($product) {
+                return [
+                    'product_id' => $product['id'],
+                    'quantity' => $product['quantity']
+                ];
+            },
+            Cart::getData()['items']
+        );
 
-        return redirect('success');
+        $order->items()->createMany($products);
+
+        $payResult = $order->pay($request->get('stripeToken'), Cart::getTotalPrice());
+
+        session()->flash('order', $order);
+
+        if ($payResult->status) {
+            Cart::clear();
+
+            $order->update(['payment_status' => Order::STATUS_PAID]);
+
+            session()->flash('payResult', $payResult);
+            return redirect('success');
+        } else {
+            $order->update(['payment_status' => Order::STATUS_FAIL]);
+
+            session()->flash('payResult', $payResult);
+            return redirect('fail');
+        }
     }
 
     public function success()
     {
-        return view('checkout.success');
+        return view('checkout.success', [
+            'payResult' => session()->get('payResult'),
+            'order' => session()->get('order')
+        ]);
     }
 
     public function fail()
     {
-        return view('checkout.fail');
+        return view('checkout.fail', [
+            'payResult' => session()->get('payResult'),
+            'order' => session()->get('order')
+        ]);
     }
 }

@@ -24,7 +24,7 @@ class HomeController extends Controller
     public function orders()
     {
         return view('home', [
-            'orders' => auth()->user()->orders,
+            'orders' => auth()->user()->orders()->paginate(5),
             'user' => auth()->user()
         ]);
     }

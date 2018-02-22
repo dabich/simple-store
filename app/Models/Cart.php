@@ -80,4 +80,14 @@ class Cart
             'totalCount' => $totalCount,
         ];
     }
+
+    /**
+     * @return array
+     */
+    public static function getProductIds()
+    {
+        $products = collect(session('cart'));
+
+        return $products->pluck('id') ?? [];
+    }
 }

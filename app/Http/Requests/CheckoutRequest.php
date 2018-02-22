@@ -24,12 +24,9 @@ class CheckoutRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_name' => 'required',
-            'user_email' => 'required|email',
-            'expiration' => 'required|min:3|max:5',
-            'card_number' => 'required|min:12',
-            'address' => 'required|min:3',
-            'cvv' => 'required',
+            'name' => 'required',
+            'email' => 'required|email',
+            'address' => 'required|min:3'
         ];
     }
 }

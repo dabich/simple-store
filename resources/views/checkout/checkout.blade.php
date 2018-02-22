@@ -6,7 +6,7 @@
             <h2>Checkout form</h2>
         </div>
 
-        @if($cart)
+        @if($cart && $cart['items'])
         <div class="row">
             <div class="col-md-4 order-md-2 mb-4">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -28,26 +28,26 @@
             </div>
             <div class="col-md-8 order-md-1">
                 <h4 class="mb-3">Billing address</h4>
-                <form action="{{ route('checkout') }}" class="needs-validation" novalidate method="post">
+                <form id="payment-form" action="{{ route('checkout') }}" class="needs-validation" novalidate method="post">
                     @csrf
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="name">Full name <span class="text-danger">*</span></label>
-                            <input id="name" type="text" name="user_name"
-                                   class="form-control @if($errors->has('user_name')) is-invalid @endif"
-                                   value="{{ old('user_name') }}">
+                            <input id="name" type="text" name="name"
+                                   class="form-control @if($errors->has('name')) is-invalid @endif"
+                                   value="{{ old('name') }}">
                             <div class="invalid-feedback">
-                                {{ $errors->first('user_name') }}
+                                {{ $errors->first('name') }}
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="email">Email <span class="text-danger">*</span></label>
-                            <input id="email" type="email" name="user_email"
-                                   class="form-control @if($errors->has('user_email')) is-invalid @endif"
+                            <input id="email" type="email" name="email"
+                                   class="form-control @if($errors->has('email')) is-invalid @endif"
                                    placeholder="you@example.com"
-                                   value="{{ old('user_email') }}">
+                                   value="{{ old('email') }}">
                             <div class="invalid-feedback">
-                                {{ $errors->first('user_email') }}
+                                {{ $errors->first('email') }}
                             </div>
                         </div>
                     </div>
@@ -67,37 +67,10 @@
 
                     <h4 class="mb-3">Payment</h4>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="cc-number">Credit card number <span class="text-danger">*</span></label>
-                            <input id="cc-number" type="text" name="card_number"
-                                   class="form-control @if($errors->has('card_number')) is-invalid @endif"
-                                   value="{{ old('card_number') }}">
-                            <div class="invalid-feedback">
-                                {{ $errors->first('card_number') }}
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="cc-expiration">Expiration <span class="text-danger">*</span></label>
-                            <input id="cc-expiration"  type="text" name="expiration"
-                                   class="form-control @if($errors->has('expiration')) is-invalid @endif"
-                                   placeholder="01/21"
-                                   value="{{ old('expiration') }}">
-                            <div class="invalid-feedback">
-                                {{ $errors->first('expiration') }}
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="cc-cvv">CVV <span class="text-danger">*</span></label>
-                            <input id="cc-cvv" type="text" name="cvv"
-                                   class="form-control @if($errors->has('cvv')) is-invalid @endif"
-                                   value="{{ old('cvv') }}">
-                            <div class="invalid-feedback">
-                                {{ $errors->first('cvv') }}
-                            </div>
-                        </div>
-                    </div>
+                    <payment-component></payment-component>
+
                     <hr class="mb-4">
+
                     <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
                 </form>
             </div>
@@ -116,3 +89,7 @@
         </footer>
     </div>
 @endsection
+
+@push('scripts')
+<script src="https://js.stripe.com/v3/"></script>
+@endpush

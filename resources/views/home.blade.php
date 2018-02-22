@@ -44,14 +44,26 @@
 
                     @foreach($orders as $order)
                         <h4>#{{ $order->id }}</h4>
-                        <table class="table">
-                            <thead>
+                        <p>
+                            <b>Status: </b>
+                            @switch($order->payment_status)
+                                @case(1) Fail @break
+                                @case(2) Paid @break
+                                @default Waiting
+                            @endswitch
+                        </p>
+                        <table class="table table-condensed">
+                            @foreach($order->items as $item)
                                 <tr>
-                                    <th>Product name</th>
+                                    <td>{{ $item->product->name }}</td>
+                                    <td>{{ $item->quantity }}</td>
+                                    <td>$ {{ $item->quantity * $item->product->price }}</td>
                                 </tr>
-                            </thead>
+                            @endforeach
                         </table>
                     @endforeach
+
+                    {!! $orders->links() !!}
                 </div>
             </div>
         </div>

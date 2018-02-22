@@ -11,6 +11,7 @@
             <th>ID</th>
             <th>Date</th>
             <th>Name</th>
+            <th>Email</th>
             <th>Address</th>
             <th>Items</th>
             <th>Grand Total</th>
@@ -22,7 +23,8 @@
             <tr>
                 <td>{{ $order->id }}</td>
                 <td>{{ $order->created_at }}</td>
-                <td>{{ $order->user_name }}</td>
+                <td>{{ $order->name }}</td>
+                <td>{{ $order->email }}</td>
                 <td>{{ $order->address }}</td>
                 <td>
                     <table class="table table-condensed">
@@ -36,7 +38,13 @@
                     </table>
                 </td>
                 <td>{{ $order->sum() }}</td>
-                <td>{{ $order->payment_status }}</td>
+                <td>
+                    @switch($order->payment_status)
+                        @case(1) Fail @break
+                        @case(2) Paid @break
+                        @default Waiting
+                    @endswitch
+                </td>
             </tr>
         @endforeach
         </tbody>
