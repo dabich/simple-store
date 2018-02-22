@@ -17,12 +17,12 @@
                     @foreach($cart['items'] as $item)
                     <li class="list-group-item d-flex justify-content-between">
                         <strong>{{ $item['name'] }}</strong>
-                        <span class="text-muted">${{ $item['price'] }}</span>
+                        <span class="text-muted">${{ number_format($item['price'], 2) }}</span>
                     </li>
                     @endforeach
                     <li class="list-group-item d-flex justify-content-between">
                         <span>Total (USD)</span>
-                        <strong>${{ $cart['totalPrice'] }}</strong>
+                        <strong>${{ number_format($cart['totalPrice'], 2) }}</strong>
                     </li>
                 </ul>
             </div>
@@ -71,7 +71,7 @@
 
                     <hr class="mb-4">
 
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                    <button class="btn btn-primary btn-lg btn-block" type="submit">Pay ${{ number_format($cart['totalPrice'], 2) }}</button>
                 </form>
             </div>
         </div>

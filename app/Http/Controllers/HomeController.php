@@ -23,8 +23,14 @@ class HomeController extends Controller
      */
     public function orders()
     {
+        $orders = auth()
+            ->user()
+            ->orders()
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
+
         return view('home', [
-            'orders' => auth()->user()->orders()->paginate(5),
+            'orders' => $orders,
             'user' => auth()->user()
         ]);
     }

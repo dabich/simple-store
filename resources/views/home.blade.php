@@ -43,24 +43,40 @@
                     @endif
 
                     @foreach($orders as $order)
-                        <h4>#{{ $order->id }}</h4>
-                        <p>
-                            <b>Status: </b>
-                            @switch($order->payment_status)
-                                @case(1) Fail @break
-                                @case(2) Paid @break
-                                @default Waiting
-                            @endswitch
-                        </p>
-                        <table class="table table-condensed">
-                            @foreach($order->items as $item)
-                                <tr>
-                                    <td>{{ $item->product->name }}</td>
-                                    <td>{{ $item->quantity }}</td>
-                                    <td>$ {{ $item->quantity * $item->product->price }}</td>
-                                </tr>
-                            @endforeach
-                        </table>
+                        <div class="border bg-light mb-3 p-3 rounded">
+                            <h4>
+                                #{{ $order->id }}
+                                <small class="float-right text-info">${{ number_format($order->sum(), 2) }}</small>
+                            </h4>
+                            <p>
+                                <b>Status: </b>
+                                @switch($order->payment_status)
+                                    @case(1) Fail @break
+                                    @case(2) Paid @break
+                                    @default Waiting
+                                @endswitch
+                            </p>
+                            <table class="table table-sm table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th class="text-center">Quantity</th>
+                                        <th class="text-right">Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($order->items as $item)
+                                        <tr>
+                                            <td>{{ $item->product->name }}</td>
+                                            <td class="text-center">{{ $item->quantity }}</td>
+                                            <td class="text-right">
+                                                ${{ number_format($item->quantity * $item->product->price, 2) }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     @endforeach
 
                     {!! $orders->links() !!}

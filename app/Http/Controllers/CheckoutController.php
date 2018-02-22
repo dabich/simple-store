@@ -64,17 +64,27 @@ class CheckoutController extends Controller
 
     public function success()
     {
+        $order = session()->get('order');
+
+        if (!$order)
+            return redirect('/');
+
         return view('checkout.success', [
             'payResult' => session()->get('payResult'),
-            'order' => session()->get('order')
+            'order' => $order
         ]);
     }
 
     public function fail()
     {
+        $order = session()->get('order');
+
+        if (!$order)
+            return redirect('/');
+
         return view('checkout.fail', [
             'payResult' => session()->get('payResult'),
-            'order' => session()->get('order')
+            'order' => $order
         ]);
     }
 }

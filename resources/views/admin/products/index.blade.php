@@ -8,6 +8,12 @@
         </a>
     </div>
 
+    @if (session()->has('message'))
+        <div class="alert alert-info">
+            {{ session('message') }}
+        </div>
+    @endif
+
     <table class="table">
         <thead>
         <tr>
@@ -43,9 +49,6 @@
                         </a>
                         <a class="btn btn-sm btn-primary" href="{{ route('products.edit', $product->id) }}">
                             <span data-feather="edit"></span>
-                        </a>
-                        <a class="btn btn-sm btn-primary" href="{{ route('products.edit', $product->id) }}">
-                            <span data-feather="trash-2"></span>
                         </a>
                     </div>
                 </td>

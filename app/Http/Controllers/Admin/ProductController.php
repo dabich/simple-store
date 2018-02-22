@@ -40,7 +40,9 @@ class ProductController extends Controller
      */
     public function store(ProductStoreRequest $request)
     {
-        $product = Product::create($request->all());
+        $product = Product::create(
+            $request->only(['name', 'price'])
+        );
 
         return response()
             ->redirectToRoute('products.index')
@@ -78,11 +80,15 @@ class ProductController extends Controller
      *
      * @param ProductUpdateRequest $request
      * @param Product $product
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(ProductUpdateRequest $request, Product $product)
     {
         $product->update($request->all());
+
+        return response()
+            ->redirectToRoute('products.index')
+            ->with('message', "Product {$product->name} was updated");
     }
 
     /**
