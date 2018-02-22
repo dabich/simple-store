@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+/**
+ * Class Cart
+ * @package App\Models
+ */
 class Cart
 {
     /**
@@ -24,6 +28,7 @@ class Cart
 
     /**
      * Remove item from cart
+     * TODO: remove item
      * @param $id
      */
     public static function remove($id)

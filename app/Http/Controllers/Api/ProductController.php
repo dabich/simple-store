@@ -56,6 +56,7 @@ class ProductController extends Controller
         $product->update(
             $request->only('name', 'price')
         );
+
         return new ProductResource($product);
     }
 

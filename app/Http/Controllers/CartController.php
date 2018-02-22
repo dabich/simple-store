@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
+    /**
+     * Get cart data
+     * @return array
+     */
     public function view()
     {
         return Cart::getData();
@@ -23,15 +27,22 @@ class CartController extends Controller
         return Cart::getData();
     }
 
+    /**
+     * Remove cart item from session
+     * @param Request $request
+     * @param $id
+     */
     public function remove(Request $request, $id)
     {
         Cart::remove($id);
     }
 
+    /**
+     * Clear cart session
+     * @param Request $request
+     */
     public function clear(Request $request)
     {
         Cart::clear();
     }
-
-
 }

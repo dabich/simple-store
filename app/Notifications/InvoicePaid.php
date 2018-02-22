@@ -40,7 +40,10 @@ class InvoicePaid extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->markdown('mail.invoice.paid');
+        return (new MailMessage)->subject("Your order #{$notifiable->id}")
+            ->markdown('mail.invoice.paid', [
+            'order' => $notifiable
+        ]);
     }
 
     /**
@@ -51,8 +54,6 @@ class InvoicePaid extends Notification
      */
     public function toArray($notifiable)
     {
-        return [
-            //
-        ];
+        return $notifiable;
     }
 }

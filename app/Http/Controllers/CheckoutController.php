@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CheckoutRequest;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Notifications\InvoicePaid;
+use Illuminate\Notifications\Events\NotificationFailed;
 
 class CheckoutController extends Controller
 {
@@ -51,6 +53,7 @@ class CheckoutController extends Controller
             Cart::clear();
 
             $order->update(['payment_status' => Order::STATUS_PAID]);
+            $order->notify(new InvoicePaid());
 
             session()->flash('payResult', $payResult);
             return redirect('success');
@@ -62,12 +65,17 @@ class CheckoutController extends Controller
         }
     }
 
+    /**
+     * Success page
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     */
     public function success()
     {
         $order = session()->get('order');
 
-        if (!$order)
+        if (!$order) {
             return redirect('/');
+        }
 
         return view('checkout.success', [
             'payResult' => session()->get('payResult'),
@@ -75,12 +83,17 @@ class CheckoutController extends Controller
         ]);
     }
 
+    /**
+     * Fail page
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     */
     public function fail()
     {
         $order = session()->get('order');
 
-        if (!$order)
+        if (!$order) {
             return redirect('/');
+        }
 
         return view('checkout.fail', [
             'payResult' => session()->get('payResult'),

@@ -5,9 +5,11 @@ Simple store on Laravel 5.6
 
 ### Stripe configuration:
 
+```yaml
 STRIPE_KEY=public_key
 
 STRIPE_SECRET=secret_key
+```
 
 ### Install
 
